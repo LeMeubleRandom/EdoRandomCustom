@@ -31,7 +31,7 @@ end
 
 function s.hsptg(e,tp,eg,ep,ev,re,r,rp,c)
     local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_HAND,LOCATION_MZONE,c,tp)
-    local g=aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),1,tp,HINTMSG_CONFIRM,nil,nil,true)
+    local g=aux.SelectUnselectGroup(rg,e,tp,1,1,nil,1,tp,HINTMSG_CONFIRM,nil,nil,true)
     if g and #g>0 then
 		e:SetLabelObject(g)
 		return true
