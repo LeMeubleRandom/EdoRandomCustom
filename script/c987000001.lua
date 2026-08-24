@@ -25,7 +25,7 @@ end
 function s.hspcon(e,c)
     if c==nil then return true end
     local tp=c:GetControler()
-    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_MZONE,nil,c,tp)
+    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_MZONE,0,c,tp)
     return #rg>0 and aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),0)
 end
 
