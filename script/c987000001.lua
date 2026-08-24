@@ -25,8 +25,8 @@ end
 function s.hspcon(e,c)
     if c==nil then return true end
     local tp=c:GetControler()
-    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_HAND,LOCATION_MZONE,c,tp)
-    return #rg>0 --and aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),0)
+    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_MZONE,c,tp)
+    return #rg>0 and aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),0)
 end
 
 function s.hsptg(e,tp,eg,ep,ev,re,r,rp,c)
@@ -41,8 +41,8 @@ end
 
 function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
     local sg=e:GetLabelObject()
-		if sg and #sg>0 then
-			c:SetMaterial(sg)
-			Duel.Release(sg,REASON_SUMMON|REASON_MATERIAL)
-		end
+	if sg and #sg>0 then
+		c:SetMaterial(sg)
+		Duel.Release(sg,nil,REASON_COST)
+	end
 end
