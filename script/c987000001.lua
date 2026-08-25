@@ -116,5 +116,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e2)
 	end
 	Duel.SpecialSummonComplete()
-    s.dragonlock(c,tp)
+    s.dragonlock(e,tp)
 end
