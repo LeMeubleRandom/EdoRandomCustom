@@ -40,7 +40,7 @@ s.listed_series={SET_HIERATIC}
 function s.searchfilter(c)
 	return c:IsSetCard(SET_HIERATIC) and c:IsAbleToHand()
 end
-function s.dragonlock(tp)
+function s.dragonlock(e,tp)
     local c=e:GetHandler()
     local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,2))
@@ -89,7 +89,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp,chk,c)
 		    Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT|REASON_DISCARD,nil,REASON_EFFECT)
         end
 	end
-    s.dragonlock(tp)
+    s.dragonlock(e,tp)
 end
 function s.spfilter(c,e,tp)
 	return c:IsType(TYPE_NORMAL) and c:IsRace(RACE_DRAGON) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
