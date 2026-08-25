@@ -59,11 +59,11 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-    local sg=Duel.SelectMatchingCard(tp,s.searchfilter,tp,LOCATION_DECK,5,1,2,nil)
+    local sg=Duel.SelectMatchingCard(tp,s.searchfilter,tp,LOCATION_DECK,0,1,2,nil)
 	if #sg>0 and Duel.SendtoHand(sg,nil,REASON_EFFECT)>0 then
 		Duel.ConfirmCards(1-tp,sg)
 		Duel.ShuffleHand(tp)
 		Duel.BreakEffect()
-		Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT|REASON_DISCARD,nil,REASON_EFFECT)
+		--Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT|REASON_DISCARD,nil,REASON_EFFECT)
 	end
 end
