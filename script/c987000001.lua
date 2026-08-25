@@ -30,7 +30,7 @@ function s.hspcon(e,c)
 end
 
 function s.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
-    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_MZONE,LOCATION_HAND,c,tp)
+    local rg=Duel.GetMatchingGroup(Card.IsReleasable,tp,LOCATION_HAND|LOCATION_MZONE,0,c,tp)
     local g=aux.SelectUnselectGroup(rg,e,tp,1,1,nil,1,tp,HINTMSG_RELEASE,nil,nil,true)
     if g and #g>0 then
 		e:SetLabelObject(g)
