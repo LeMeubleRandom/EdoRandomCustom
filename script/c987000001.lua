@@ -27,6 +27,7 @@ function s.initial_effect(c)
     local e1b=e1a:Clone()
     e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e1b)
+    --Special Summon Normal monster
     local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,2))
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
@@ -41,6 +42,7 @@ s.listed_series={SET_HIERATIC}
 function s.searchfilter(c)
 	return c:IsSetCard(SET_HIERATIC) and c:IsAbleToHand()
 end
+--Cannot Special Summon monsters for the rest of this turn, except Dragon monsters
 function s.dragonlock(e,tp)
     local c=e:GetHandler()
     local e1=Effect.CreateEffect(c)
