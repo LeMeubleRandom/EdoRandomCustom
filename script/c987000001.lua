@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
     --Special Summon Procedure
     local e0=Effect.CreateEffect(c)
-    e1a:SetDescription(aux.Stringid(id,0))
+    e0:SetDescription(aux.Stringid(id,0))
     e0:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e0:SetType(EFFECT_TYPE_FIELD)
 	e0:SetRange(LOCATION_HAND)
