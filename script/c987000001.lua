@@ -39,7 +39,7 @@ function s.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	return false
 end
 
-function s.hspop(e,tp,eg,ep,ev,re,r,rp,chk,c)
+function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
     local sg=e:GetLabelObject()
 	if sg and #sg>0 then
 		c:SetMaterial(sg)
