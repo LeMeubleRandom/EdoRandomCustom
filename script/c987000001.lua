@@ -42,7 +42,6 @@ end
 function s.hspop(e,tp,eg,ep,ev,re,r,rp,chk,c)
     local sg=e:GetLabelObject()
 	if sg and #sg>0 then
-		c:SetMaterial(sg)
 		Duel.Release(sg,REASON_COST)
 	end
 end
