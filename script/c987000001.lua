@@ -39,10 +39,10 @@ function s.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	return false
 end
 
-function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
+function s.hspop(e,tp,eg,ep,ev,re,r,rp,chk,c)
     local sg=e:GetLabelObject()
 	if sg and #sg>0 then
 		c:SetMaterial(sg)
-		Duel.Release(sg,nil,REASON_COST)
+		Duel.Release(sg,REASON_COST)
 	end
 end
