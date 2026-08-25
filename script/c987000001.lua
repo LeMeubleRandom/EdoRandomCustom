@@ -64,7 +64,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,sg)
 		Duel.ShuffleHand(tp)
 		Duel.BreakEffect()
-        if Duel.SendtoHand(sg,nil,REASON_EFFECT)==2 then
+        if Duel.SendtoHand(sg,nil,REASON_EFFECT)>1 then
 		    Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_EFFECT|REASON_DISCARD,nil,REASON_EFFECT)
         end
 	end
