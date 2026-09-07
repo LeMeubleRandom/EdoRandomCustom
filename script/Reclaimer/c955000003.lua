@@ -85,6 +85,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
         local sg=g:Select(tp,3,3,nil)
+        local cg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND)
 	    Duel.ConfirmCards(1-tp,cg)
 	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
