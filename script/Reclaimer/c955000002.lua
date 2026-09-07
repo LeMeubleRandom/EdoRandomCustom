@@ -38,7 +38,7 @@ function s.initial_effect(c)
 	e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetTargetRange(LOCATION_MZONE,0)
-	e3:SetValue(1)
+	e2:SetValue(aux.tgoval)
 	c:RegisterEffect(e3)
 end
 function s.matfilter(c,scard,sumtype,tp)
