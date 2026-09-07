@@ -64,7 +64,7 @@ end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local b1=Duel.IsExistingMatchingCard(aux.NecroValleyFilter(s.stfilter),tp,LOCATION_DECK,0,1,nil)
 	local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
-	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE+CARD_THE_FALLEN_ONE)
+	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE,CARD_THE_FALLEN_ONE)
 	local op=nil
 	if not link_chk then
 		op=Duel.SelectEffect(tp,
