@@ -34,7 +34,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 function s.matfilter(c,scard,sumtype,tp)
-    return c:IsSetCard(SET_RECRUIT,scard,sumtype,tp) and c:IsCode(CARD_THE_FALLEN_ONE)
+    return c:IsSetCard(SET_RECRUIT,scard,sumtype,tp) or c:IsCode(CARD_THE_FALLEN_ONE)
 end
 function s.dthfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsSpellTrap() and c:IsAbleToHand()
