@@ -7,12 +7,12 @@
 
 SET_RECRUIT                      = 0x9554
 -- 38228
-SET_INFESTED                     = 0x9555
--- 38229
-SET_ELITE                        = 0x9556
--- 38230
-SET_SPARTAN                      = 0x9557
--- 38231
+SET_INFESTED                     = 0x9b55
+-- 39765
+SET_ELITE                        = 0x9c56
+-- 40021
+SET_SPARTAN                      = 0x9d57
+-- 40277
 
 --CardName code
 
