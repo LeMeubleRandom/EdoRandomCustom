@@ -66,7 +66,7 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
-	local b2=Duel.GetLocationCount(s.tdfilter,tp,LOCATION_GRAVE,0,nil)>=3 
+	local b2=Duel.GetLocationCount(tp,s.tdfilter,tp,LOCATION_GRAVE,0,nil)>=3
         and Duel.IsExistingMatchingCard(s.td2filter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
 	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE,CARD_THE_FALLEN_ONE)
 	local op=nil
