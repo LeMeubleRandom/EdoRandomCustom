@@ -1,3 +1,5 @@
+Duel.LoadScript("MeubleConstant.lua")
+
 --The Chosen One
 local s,id=GetID()
 function s.initial_effect(c)
@@ -32,13 +34,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 function s.matfilter(c,scard,sumtype,tp)
-    return c:IsSetCard(SET_RECRUIT,scard,sumtype,tp) and c:isCode(955000002)
+    return c:IsSetCard(SET_RECRUIT,scard,sumtype,tp) and c:isCode(CARD_THE_FALLEN_ONE)
 end
 function s.dthfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsSpellTrap() and c:IsAbleToHand()
 end
 function s.cfilter(c)
-	return c:isCode(955000002) and c:IsAbleToGraveAsCost()
+	return c:isCode(CARD_THE_FALLEN_ONE) and c:IsAbleToGraveAsCost()
 end
 function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
