@@ -58,60 +58,40 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 		return b1 or b2 and #b2>=3 and b2:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT) and Duel.IsPlayerCanDraw(tp,1)
 	end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SET,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
-	Duel.SetPossibleOperationInfo(0,CATEGORY_TODECK|CATEGORY_DRAW,nil,1,tp,LOCATION_GRAVE)
+	Duel.SetPossibleOperationInfo(0,CATEGORY_TODECK,nil,3,tp,LOCATION_GRAVE)
+    Duel.SetPossibleOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
-
-
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
-	local b1=Duel.IsExistingMatchingCard(aux.NecroValleyFilter(s.thfilter),tp,LOCATION_GRAVE,0,1,nil)
-	local b2=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
-	local ravine_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,0,1,nil,CARD_DRAGON_RAVINE)
+	local b1=Duel.IsExistingMatchingCard(aux.NecroValleyFilter(s.stfilter),tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
+	local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
+	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE|CARD_THE_FALLEN_ONE)
 	local op=nil
-	if not ravine_chk then
+	if not link_chk then
 		op=Duel.SelectEffect(tp,
 			{b1,aux.Stringid(id,2)},
 			{b2,aux.Stringid(id,3)})
 	end
 	local breakeffect=false
-	if (op and op==1) or (ravine_chk and b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(id,3)))) then
+	if (op and op==1) or (link_chk and b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(id,2)))) then
 		--Add 1 Dragon or Winged Beast monster from your GY to your hand
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.thfilter),tp,LOCATION_GRAVE,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.stfilter),tp,LOCATION_GRAVE,0,1,1,nil)
 		if #g>0 then
 			Duel.HintSelection(g)
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ShuffleHand(tp)
 			b2=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-				and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
+				and Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
 		end
 		breakeffect=true
 	end
-	if (op and op==2) or (ravine_chk and b2 and (not breakeffect or Duel.SelectYesNo(tp,aux.Stringid(id,4)))) then
+	if (op and op==2) or (link_chk and b2 and (not breakeffect or Duel.SelectYesNo(tp,aux.Stringid(id,3)))) then
 		--Special Summon 1 "Dragunity" monster from your hand, then you can equip 1 Dragon "Dragunity" monster from your Deck to it as an Equip Spell
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp):GetFirst()
+		local sc=Duel.SelectMatchingCard(tp,s.tdfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp):GetFirst()
 		if sc then
 			if breakeffect then Duel.BreakEffect() end
-			if Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)>0 and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-				and Duel.IsExistingMatchingCard(s.eqfilter,tp,LOCATION_DECK,0,1,nil,tp)
-				and Duel.SelectYesNo(tp,aux.Stringid(id,5)) then
-				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-				local ec=Duel.SelectMatchingCard(tp,s.eqfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
-				if not ec then return end
-				Duel.BreakEffect()
-				if Duel.Equip(tp,ec,sc) then
-					--Equip limit
-					local e0=Effect.CreateEffect(e:GetHandler())
-					e0:SetType(EFFECT_TYPE_SINGLE)
-					e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-					e0:SetCode(EFFECT_EQUIP_LIMIT)
-					e0:SetValue(function(e,c) return c==sc end)
-					e0:SetReset(RESET_EVENT|RESETS_STANDARD)
-					ec:RegisterEffect(e0)
-				end
-			end
 		end
 	end
 end
