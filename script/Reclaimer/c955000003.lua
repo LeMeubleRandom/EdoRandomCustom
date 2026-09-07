@@ -13,7 +13,7 @@ end
 function s.acttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if s.sptg(e,tp,eg,ep,ev,re,r,rp,0)
-		and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+		and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		s.sptg(e,tp,eg,ep,ev,re,r,rp,1)
 		e:SetOperation(s.spop)
