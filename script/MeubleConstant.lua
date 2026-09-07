@@ -10,9 +10,9 @@ SET_RECRUIT                      = 0x9554
 SET_INFESTED                     = 0x9b55
 -- 39765
 SET_ELITE                        = 0x9c56
--- 40021
+-- 40022
 SET_SPARTAN                      = 0x9d57
--- 40277
+-- 40279
 
 --CardName code
 
