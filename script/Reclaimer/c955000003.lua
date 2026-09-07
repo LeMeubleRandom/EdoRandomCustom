@@ -68,7 +68,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local op=nil
 	if not link_chk then
 		op=Duel.SelectEffect(tp,
-			{b1,aux.Stringid(id,2)},
+			{b1,aux.Stringid(id,0)},
 			{b2,aux.Stringid(id,3)})
 	end
 	local breakeffect=false
