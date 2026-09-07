@@ -51,9 +51,6 @@ end
 function s.tdfilter(sg,e,tp,mg)
 	return sg:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT)
 end
-function s.td2filter(c,e,tp)
-    return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
-end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
@@ -66,8 +63,7 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
-	local b2=Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_GRAVE,0,3,nil,e,tp)
-        and Duel.IsExistingMatchingCard(s.td2filter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
+	local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,3,nil,e,tp)
 	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE,CARD_THE_FALLEN_ONE)
 	local op=nil
 	if not link_chk then
