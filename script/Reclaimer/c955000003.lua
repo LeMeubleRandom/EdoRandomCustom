@@ -48,8 +48,8 @@ end
 function s.stfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsTrap() and c:IsSSetable()
 end
-function s.tdfilter(c,e,tp)
-	return c:IsAbleToDeck()
+function s.tdfilter(sg,e,tp,mg)
+	return sg:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT)
 end
 function s.td2filter(c,e,tp)
     return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
@@ -88,9 +88,9 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-        local sg=g:Select(tp,3,3,nil)
-        local cg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND)
-	    Duel.ConfirmCards(1-tp,cg)
-	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
+        local sg=g:SelectSubGroup(tp,s.tdfilter,false,3,3)
+        if sg then
+	        Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
+        end
 	end
 end
