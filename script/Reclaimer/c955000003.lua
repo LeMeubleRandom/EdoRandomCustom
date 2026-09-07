@@ -81,8 +81,8 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 		breakeffect=true
 	end
 	if (op and op==2) or (link_chk and b2 and (not breakeffect or Duel.SelectYesNo(tp,aux.Stringid(id,3)))) then
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-		local sc=Duel.SelectMatchingCard(tp,s.tdfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp):GetFirst()
+	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
+        if #g<3 then return end
+        Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	end
 end
