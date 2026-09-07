@@ -75,14 +75,14 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	if (op and op==1) or (link_chk and b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(id,2)))) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 		local g=Duel.SelectMatchingCard(tp,s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,1,nil)
+		if #g>0 then
+			Duel.SSet(tp,g)
+		end
 		breakeffect=true
 	end
 	if (op and op==2) or (link_chk and b2 and (not breakeffect or Duel.SelectYesNo(tp,aux.Stringid(id,3)))) then
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local sc=Duel.SelectMatchingCard(tp,s.tdfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp):GetFirst()
-		if sc then
-			if breakeffect then Duel.BreakEffect() end
-		end
 	end
 end
