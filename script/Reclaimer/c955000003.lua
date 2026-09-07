@@ -84,5 +84,6 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+        local sg=g:Select(tp,3,3,nil)
 	end
 end
