@@ -42,6 +42,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
                 e2:SetCode(EFFECT_CHANGE_LEVEL)
                 e2:SetValue(4)
                 e2:SetReset(RESET_EVENT|RESETS_STANDARD)
+                e2:SetDescription(aux.Stringid(id,0))
                 sc:RegisterEffect(e2)
             end
 		end,
