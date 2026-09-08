@@ -22,17 +22,18 @@ function s.thfilter(c)
 	return c:IsMonster() and c:IsSetCard(SET_RECRUIT) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned())
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetPossibleOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil) end
+	Duel.SetPossibleOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
-	local tc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
+	local tc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,1,nil):GetFirst()
 	if not tc then return end
+    local c=e:GetHandler()
 	aux.ToHandOrElse(tc,tp,
-		Card.IsSSetable,
+		Card.IsCanBeSpecialSummoned,
 		function(c)
-			Duel.SSet(tp,tc)
+			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 		end,
 		aux.Stringid(id,0)
 	)
