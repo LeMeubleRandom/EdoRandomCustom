@@ -36,16 +36,17 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 			return mzone_chk and sc:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		end,
 		function()
-			if Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP) 
-				and Duel.SelectYesNo(tp,aux.Stringid(id,5)) 
-				and sc:HasLevel() and not sc:IsLevel(4) then
-                local e2=Effect.CreateEffect(c)
-                e2:SetType(EFFECT_TYPE_SINGLE)
-                e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-                e2:SetCode(EFFECT_CHANGE_LEVEL)
-                e2:SetValue(4)
-                e2:SetReset(RESET_EVENT|RESETS_STANDARD)
-                sc:RegisterEffect(e2)
+			if Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP) then
+				if sc:HasLevel() and not sc:IsLevel(4)
+				and Duel.SelectYesNo(tp,aux.Stringid(id,5)) then
+					local e2=Effect.CreateEffect(c)
+					e2:SetType(EFFECT_TYPE_SINGLE)
+					e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+					e2:SetCode(EFFECT_CHANGE_LEVEL)
+					e2:SetValue(4)
+					e2:SetReset(RESET_EVENT|RESETS_STANDARD)
+					sc:RegisterEffect(e2)
+				end
             end
 		end,
         aux.Stringid(id,4),
