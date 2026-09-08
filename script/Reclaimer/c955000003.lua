@@ -91,7 +91,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local rg=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,e:GetHandler())
         local g=aux.SelectUnselectGroup(rg,e,tp,3,3,s.rescon,1,tp,HINTMSG_TODECK,nil,nil,true)
         if #rg<3 then return end
-        Duel.HintSelection(g,true)
+        Duel.HintSelection(rg,true)
 	    Duel.SendtoDeck(rg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
 end
