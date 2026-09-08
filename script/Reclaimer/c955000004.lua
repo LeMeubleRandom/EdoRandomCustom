@@ -22,19 +22,22 @@ function s.thfilter(c)
 	return c:IsMonster() and c:IsSetCard(SET_RECRUIT) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned())
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil,e,tp,Duel.GetLocationCount(tp,LOCATION_MZONE)>0) end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
+	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,0))
-	local tc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,1,nil):GetFirst()
-	if not tc then return end
-    local c=e:GetHandler()
-	aux.ToHandOrElse(tc,tp,
-		Card.IsCanBeSpecialSummoned,
-		function(c)
-			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+	local mzone_chk=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
+	local sc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,1,nil,e,tp,mzone_chk):GetFirst()
+	aux.ToHandOrElse(sc,tp,
+		function()
+			return mzone_chk and sc:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		end,
-		aux.Stringid(id,0)
+		function()
+			Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
+		end,
+		aux.Stringid(id,4)
 	)
+	local c=e:GetHandler()
 end
