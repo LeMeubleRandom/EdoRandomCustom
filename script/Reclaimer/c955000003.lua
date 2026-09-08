@@ -54,6 +54,9 @@ end
 function s.td2filter(c,e,tp)
     return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
 end
+function s.rescon(sg,e,tp,mg)
+	return sg:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT)
+end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
@@ -85,10 +88,11 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 		breakeffect=true
 	end
 	if (op and op==2) or (link_chk and b2 and (not breakeffect or Duel.SelectYesNo(tp,aux.Stringid(id,3)))) then
-	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
-        if #g<3 then return end
+	    local rg=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,e:GetHandler())
+        local g=aux.SelectUnselectGroup(rg,e,tp,3,3,s.rescon,1,tp,HINTMSG_TODECK,nil,nil,true)
+        if #rg<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-        local sg=g:Select(tp,3,3,nil)
+        local sg=rg:Select(tp,3,3,nil)
 	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
 end
