@@ -27,6 +27,7 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local mzone_chk=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,4))
 	local sc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,1,nil,e,tp,mzone_chk):GetFirst()
@@ -42,12 +43,10 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
                 e2:SetCode(EFFECT_CHANGE_LEVEL)
                 e2:SetValue(4)
                 e2:SetReset(RESET_EVENT|RESETS_STANDARD)
-                e2:SetDescription(aux.Stringid(id,0))
                 sc:RegisterEffect(e2)
             end
 		end,
         aux.Stringid(id,4),
         Duel.SpecialSummonComplete()
 	)
-	local c=e:GetHandler()
 end
