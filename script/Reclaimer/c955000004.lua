@@ -45,7 +45,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
                 sc:RegisterEffect(e2)
             end
 		end,
-        aux.Stringid(id,4)
+        aux.Stringid(id,4),
         Duel.SpecialSummonComplete()
 	)
 	local c=e:GetHandler()
