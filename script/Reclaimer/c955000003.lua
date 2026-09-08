@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,1))
-    e2:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
+    e2:SetCategory(CATEGORY_SET+CATEGORY_TODECK+CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_SZONE)
@@ -48,8 +48,14 @@ end
 function s.stfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsTrap() and c:IsSSetable()
 end
-function s.tdfilter(sg,e,tp,mg)
-	return sg:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT)
+function s.tdfilter(c,e,tp)
+	return c:IsAbleToDeck()
+end
+function s.td2filter(c,e,tp)
+    return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
+end
+function s.arfilter(sg, e, tp, mg)
+    return sg:IsExists(Card.IsSetCard, 1, nil, SET_RECRUIT)
 end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -63,7 +69,8 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
-	local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,3,nil,e,tp)
+	local b2=Duel.IsExistingMatchingCard(s.tdfilter,tp,LOCATION_GRAVE,0,3,nil,e,tp)
+        and Duel.IsExistingMatchingCard(s.td2filter,tp,LOCATION_GRAVE,0,1,nil,e,tp)
 	local link_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_CHOSEN_ONE,CARD_THE_FALLEN_ONE)
 	local op=nil
 	if not link_chk then
@@ -84,9 +91,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-        local sg=g:SelectSubGroup(tp,s.tdfilter,false,3,3)
-        if sg then
-	        Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
-        end
+        local sg = g:SelectSubGroup(tp, s.arfilter, false, 3, 3)
+	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
 end
