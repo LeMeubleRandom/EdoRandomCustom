@@ -93,5 +93,11 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
         if #rg<3 then return end
         Duel.HintSelection(g,true)
 	    Duel.SendtoDeck(g,nil,SEQ_DECKTOP,REASON_EFFECT)
+        if Duel.IsPlayerCanDraw(tp,1) then
+			Duel.ShuffleDeck(tp)
+			Duel.BreakEffect()
+			Duel.Draw(tp,1,REASON_EFFECT)
+		end
+        g:DeleteGroup()
 	end
 end
