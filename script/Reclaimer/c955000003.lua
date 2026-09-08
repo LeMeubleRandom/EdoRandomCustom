@@ -54,20 +54,11 @@ end
 function s.td2filter(c,e,tp)
     return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
 end
-function s.arfilter(sg, e, tp, mg)
-    return sg:IsExists(Card.IsSetCard, 1, nil, SET_RECRUIT)
-end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local b1=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_DECK|LOCATION_GRAVE,0,1,nil)
-		local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,e:GetHandler())
-        local g=aux.SelectUnselectGroup(b2,e,tp,3,3,s.rescon,1,tp,HINTMSG_TODECK,nil,nil,true)
-        if #g>0 then
-            g:KeepAlive()
-            e:SetLabelObject(g)
-            return true
-        end
-		return b1 or b2 and g
+		local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
+		return b1 or b2 and #b2>=3 and b2:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT) and Duel.IsPlayerCanDraw(tp,1)
 	end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SET,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
 	Duel.SetPossibleOperationInfo(0,CATEGORY_TODECK,nil,3,tp,LOCATION_GRAVE)
@@ -97,7 +88,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-        local sg=g:SelectSubGroup(tp, s.arfilter, false, 3, 3)
+        local sg=g:Select(tp,3,3,nil)
 	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
 end
