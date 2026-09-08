@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,1))
-    e2:SetCategory(CATEGORY_SET+CATEGORY_TODECK+CATEGORY_DRAW)
+    e2:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetRange(LOCATION_SZONE)
@@ -55,7 +55,7 @@ function s.td2filter(c,e,tp)
     return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
 end
 function s.arfilter(sg, e, tp, mg)
-    return sg:IsExists(Card.IsSetCard, 1, 1, SET_RECRUIT)
+    return sg:IsExists(Card.IsSetCard, 1, nil, SET_RECRUIT)
 end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -63,7 +63,7 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local b2=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
 		return b1 or b2 and #b2>=3 and b2:IsExists(Card.IsSetCard,1,nil,SET_RECRUIT) and Duel.IsPlayerCanDraw(tp,1)
 	end
-	Duel.SetPossibleOperationInfo(0,CATEGORY_SET,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
+	Duel.SetPossibleOperationInfo(0,CATEGORY_LEAVE_GRAVE,nil,1,tp,LOCATION_DECK|LOCATION_GRAVE)
 	Duel.SetPossibleOperationInfo(0,CATEGORY_TODECK,nil,3,tp,LOCATION_GRAVE)
     Duel.SetPossibleOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
