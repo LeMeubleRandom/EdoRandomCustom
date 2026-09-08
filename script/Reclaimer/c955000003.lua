@@ -55,7 +55,7 @@ function s.td2filter(c,e,tp)
     return c:IsAbleToDeck() and c:IsSetCard(SET_RECRUIT)
 end
 function s.arfilter(sg, e, tp, mg)
-    return sg:IsExists(Card.IsSetCard, 1, nil, SET_RECRUIT)
+    return sg:IsExists(Card.IsSetCard, 1, 1, SET_RECRUIT)
 end
 function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -91,7 +91,7 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	    local g=Duel.GetMatchingGroup(s.tdfilter,tp,LOCATION_GRAVE,0,nil)
         if #g<3 then return end
         Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-        local sg = g:SelectSubGroup(tp, s.arfilter, false, 3, 3)
+        local sg=g:SelectSubGroup(tp, s.arfilter, false, 3, 3)
 	    Duel.SendtoDeck(sg,nil,SEQ_DECKTOP,REASON_EFFECT)
 	end
 end
