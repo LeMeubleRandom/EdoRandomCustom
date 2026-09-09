@@ -23,6 +23,7 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,{id,2})
+  	e2:SetCondition(s.rmcon)
 	e2:SetTarget(s.rmtg)
 	e2:SetOperation(s.rmop)
     e2:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
@@ -73,10 +74,12 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	Duel.Destroy(tc,REASON_EFFECT)
 end
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
+    return Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_FALLEN_ONE)
+end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-    local crd_chk=Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,CARD_THE_FALLEN_ONE)
 	if chkc then return chkc:IsLocation(LOCATION_ONFIELD|LOCATION_GRAVE) and chkc:IsAbleToRemove() end
-	if chk==0 and crd_chk then
+	if chk==0 then
 		e:SetLabel(0)
 		return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD|LOCATION_GRAVE,LOCATION_ONFIELD|LOCATION_GRAVE,1,nil)
 	end
