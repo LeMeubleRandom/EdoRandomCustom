@@ -38,6 +38,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 		--Negate its effects
 		if tc:NegateEffects(e:GetHandler()) then
             Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END,1)
+            Duel.SendtoHand(tc,nil,REASON_EFFECT)
         end
 	end
 end
