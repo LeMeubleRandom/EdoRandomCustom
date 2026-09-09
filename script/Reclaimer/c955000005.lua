@@ -47,3 +47,16 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	    end
 	end
 end
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	if tc:GetFlagEffectLabel(id)==e:GetLabel() then
+		return true
+	else
+		e:Reset()
+		return false
+	end
+end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	Duel.Destroy(tc,REASON_EFFECT)
+end
