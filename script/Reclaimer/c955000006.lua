@@ -28,7 +28,6 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(s.disfilter,tp,0,LOCATION_MZONE,1,c,tp,chk) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_NEGATE)
 	local g=Duel.SelectTarget(tp,s.disfilter,tp,0,LOCATION_MZONE,1,1,c,tp,chk)
-	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,1,tp,0)
     Duel.SetOperationInfo(0,CATEGORY_RELEASE,nil,1,tp,LOCATION_MZONE)
 	Duel.SetOperationInfo(0,CATEGORY_CONTROL,nil,1,1-tp,LOCATION_MZONE)
 end
@@ -36,10 +35,9 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-        Duel.HintSelection(tc)
 		--Negate its effects
 		if tc:NegateEffects(e:GetHandler()) then
-            Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END)
+            Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END,1)
         end
 	end
 end
