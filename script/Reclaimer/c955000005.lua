@@ -16,15 +16,15 @@ function s.initial_effect(c)
 	e1:SetOperation(s.ssop)
 	c:RegisterEffect(e1)
 end
-function s.ssfilter(c,e,mzone_chk)
+function s.ssfilter(c,e,tp,mzone_chk)
     return (c:IsSetCard(SET_RECRUIT) or c:IsLink(1) and c:IsAttack(2000)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and mzone_chk
 end
 function s.sstg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.filter(chkc,e,tp) end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.ssfilter(chkc,e,tp,Duel.GetLocationCount(tp,LOCATION_MZONE)>0) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(s.ssfilter,tp,LOCATION_GRAVE,1,1,nil,e,tp) end
+		and Duel.IsExistingTarget(s.ssfilter,tp,LOCATION_GRAVE,1,nil,e,tpDuel.GetLocationCount(tp,LOCATION_MZONE)>0) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,s.ssfilter,tp,LOCATION_GRAVE,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,s.ssfilter,tp,LOCATION_GRAVE,1,1,nil,e,tpDuel.GetLocationCount(tp,LOCATION_MZONE)>0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
     local tc=Duel.GetFirstTarget()
