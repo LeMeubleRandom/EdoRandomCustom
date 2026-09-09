@@ -63,7 +63,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
         aux.Stringid(id,4),
         Duel.SpecialSummonComplete()
 	)
-	--[[local e1=Effect.CreateEffect(c)
+	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,1))
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+ EFFECT_FLAG_CLIENT_HINT)
@@ -74,7 +74,6 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 	--Clock Lizard check
 	aux.addTempLizardCheck(c,tp,function(e,c) return not c:IsOriginalRace(RACE_WARRIOR|RACE_GALAXY) end)
-	]]--
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
