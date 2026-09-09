@@ -18,6 +18,10 @@ function s.initial_effect(c)
     e1:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
 	c:RegisterEffect(e1)
 end
+function s.disfilter(c)
+	return c:IsNegatableMonster() and c:IsType(TYPE_EFFECT) and c:IsAbleToChangeControler()
+        and (chk==1 or Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_CONTROL)>0)
+end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.disfilter(chkc) and chkc~=c end
@@ -25,11 +29,17 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_NEGATE)
 	local g=Duel.SelectTarget(tp,s.disfilter,tp,0,LOCATION_MZONE,1,1,c)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,1,tp,0)
+    Duel.SetOperationInfo(0,CATEGORY_RELEASE,nil,1,tp,LOCATION_MZONE)
+	Duel.SetOperationInfo(0,CATEGORY_CONTROL,nil,1,1-tp,LOCATION_MZONE)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
+    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
+        Duel.HintSelection(tc)
 		--Negate its effects
-		tc:NegateEffects(e:GetHandler(),RESET_PHASE|PHASE_END)
+		if tc:NegateEffects(e:GetHandler(),RESET_PHASE|PHASE_END) then
+            Duel.GetControl(tc,tp)
+        end
 	end
 end
