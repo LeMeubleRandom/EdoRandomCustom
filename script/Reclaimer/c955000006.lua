@@ -18,14 +18,14 @@ function s.initial_effect(c)
     e1:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
 	c:RegisterEffect(e1)
 end
-function s.disfilter(c)
+function s.disfilter(c,tp,chk)
 	return c:IsNegatableMonster() and c:IsType(TYPE_EFFECT) and c:IsAbleToChangeControler()
         and (chk==1 or Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_CONTROL)>0)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.disfilter(chkc) and chkc~=c end
-	if chk==0 then return Duel.IsExistingTarget(s.disfilter,tp,0,LOCATION_MZONE,1,c) end
+	if chk==0 then return Duel.IsExistingTarget(s.disfilter,tp,0,LOCATION_MZONE,1,c,tp,chk) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_NEGATE)
 	local g=Duel.SelectTarget(tp,s.disfilter,tp,0,LOCATION_MZONE,1,1,c)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,1,tp,0)
