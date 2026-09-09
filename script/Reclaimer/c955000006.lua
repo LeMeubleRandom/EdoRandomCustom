@@ -38,8 +38,8 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
         Duel.HintSelection(tc)
 		--Negate its effects
-		if tc:NegateEffects(e:GetHandler(),RESET_PHASE|PHASE_END) then
-            Duel.GetControl(tc,tp)
+		if tc:NegateEffects(e:GetHandler()) then
+            Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END)
         end
 	end
 end
