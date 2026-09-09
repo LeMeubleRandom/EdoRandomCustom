@@ -29,9 +29,21 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
     local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
-		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_ATTACK)
+		if Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_ATTACK) then
+            local fid=e:GetHandler():GetFieldID()
+            tc:RegisterFlagEffect(id,RESET_EVENT|RESETS_STANDARD,0,1,fid)
+            local e1=Effect.CreateEffect(e:GetHandler())
+            e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+            e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+            e1:SetCode(EVENT_PHASE+PHASE_END)
+            e1:SetCountLimit(1)
+            e1:SetLabel(fid)
+            e1:SetLabelObject(tc)
+            e1:SetCondition(s.descon)
+            e1:SetOperation(s.desop)
+            Duel.RegisterEffect(e1,tp)
+	    end
 	end
 end
