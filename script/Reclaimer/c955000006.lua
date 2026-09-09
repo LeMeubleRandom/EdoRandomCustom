@@ -34,10 +34,9 @@ end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
+	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) and tc:IsNegatableMonster() then
 		--Negate its effects
-        if tc:NegateEffects(e:GetHandler(),nil,true)>0 then
-            Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END,1)
-        end
+        if tc:NegateEffects(e:GetHandler(),nil,true)
+        Duel.GetControl(tc,tp,RESET_PHASE|PHASE_END,1)
 	end
 end
