@@ -112,8 +112,4 @@ function s.sucop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_SET_BASE_DEFENSE)
 	c:RegisterEffect(e2)
-	local e3=e1:Clone()
-	e3:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
-	e3:SetValue(c:GetMaterialCount()-1)
-	c:RegisterEffect(e3)
 end
