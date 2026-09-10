@@ -47,7 +47,7 @@ function s.selfspcon(e,c)
 	return Duel.CheckReleaseGroup(tp,s.selfspcostfilter,2,false,1,true,c,tp,nil,true,nil,tp,c)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
-	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,2,1,false,true,true,c,tp,nil,true,nil,tp,c)
+	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,0,1,false,true,true,c,tp,nil,true,nil,tp,c)
 	if g and #g>0 then
 		e:SetLabelObject(g)
 		return true
