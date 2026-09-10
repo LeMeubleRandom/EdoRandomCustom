@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e2:SetCondition(s.spcon)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
-    e2:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
+	e2:SetHintTiming(0,TIMING_BATTLE_START|TIMING_ATTACK|TIMING_BATTLE_END)
 	c:RegisterEffect(e2)
 end
 function s.setfilter(c)
