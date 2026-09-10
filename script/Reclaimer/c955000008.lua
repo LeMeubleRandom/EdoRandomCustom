@@ -51,6 +51,9 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,tp,0)
 end
+function s.syncfilter(c)
+	return c.IsSynchroSummonable() and c.IsSetCard(SET_ELITE)
+end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
@@ -64,9 +67,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
             e1:SetValue(LOCATION_REMOVED)
             c:RegisterEffect(e1,true)
 
-			if Duel.IsExistingMatchingCard(Card.IsSynchroSummonable,tp,LOCATION_EXTRA,0,1,nil,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
+			if Duel.IsExistingMatchingCard(s.syncfilter,tp,LOCATION_EXTRA,0,1,nil,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local sync=Duel.SelectMatchingCard(tp,Card.IsSynchroSummonable,tp,LOCATION_EXTRA,0,1,1,nil,nil):GetFirst()
+				local sync=Duel.SelectMatchingCard(tp,s.syncfilter,tp,LOCATION_EXTRA,0,1,1,nil,nil):GetFirst()
 				if sync then
 					Duel.SynchroSummon(tp,sync,nil)
 				end
