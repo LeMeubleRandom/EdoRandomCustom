@@ -46,7 +46,7 @@ end
 function s.rescon(sg,e,tp,mg)
 	return Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0
 		and sg:FilterCount(Card.IsControler,nil,tp)==1
-        and sg:IsExists(Card.IsCode,1,nil,995000010)
+        and sg:IsExists(Card.IsCode,1,nil,955000010)
 end
 function s.selfspcon(e,c)
 	if not c then return true end
