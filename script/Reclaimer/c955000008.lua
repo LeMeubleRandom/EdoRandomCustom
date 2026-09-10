@@ -69,9 +69,11 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 
 			if Duel.IsExistingMatchingCard(s.syncfilter,tp,LOCATION_EXTRA,0,1,nil,e:GetHandler()) and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-				local sync=Duel.GetMatchingGroup(s.syncfilter,tp,LOCATION_EXTRA,0,nil,c)
-				if sync then
-					Duel.SynchroSummon(tp,sync,nil)
+				local g=Duel.GetMatchingGroup(s.syncfilter,tp,LOCATION_EXTRA,0,nil,c)
+				if #g>0 then
+					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+					local sg=g:Select(tp,1,1,nil)
+					Duel.SynchroSummon(tp,sg:GetFirst(),c)
 				end
 			end
         end
