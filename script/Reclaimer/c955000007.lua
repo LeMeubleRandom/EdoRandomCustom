@@ -39,12 +39,12 @@ function s.ffilter(c)
 	return c:IsLocation(LOCATION_MZONE)
 end
 function s.selfspcostfilter(c,tp,fc)
-	return c:IsControler(1-tp) and c:IsReleasable()
-		and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) and (c:IsControler(tp) or c:IsFaceup())
+	c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) and (c:IsControler(tp) or c:IsFaceup())
 end
 function s.rescon(sg,e,tp,mg)
 	return Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0
 		and sg:FilterCount(Card.IsControler,nil,tp)==1
+        and sg:IsExists(Card.IsCode,nil,995000010)
 end
 function s.selfspcon(e,c)
 	if not c then return true end
