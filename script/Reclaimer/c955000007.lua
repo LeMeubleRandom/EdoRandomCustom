@@ -44,6 +44,18 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetOperation(s.sucop)
 	c:RegisterEffect(e2)
+    local e3=Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+	e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_MZONE)
+	e3:SetCountLimit(1,{id,1})
+	e3:SetTarget(s.spstg)
+	e3:SetOperation(s.spsop)
+    e3:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
+	c:RegisterEffect(e3)
 end
 function s.gfilter(c,fc,sumtype,tp)
 	return c:IsLocation(LOCATION_GRAVE)
@@ -113,4 +125,21 @@ function s.sucop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_SET_BASE_DEFENSE)
 	c:RegisterEffect(e2)
+end
+function s.spsfilter(c,e,tp)
+    return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function s.spstg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.spsfilter(chkc,e,tp) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsExistingTarget(s.spsfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectTarget(tp,s.spsfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+end
+function s.spsop(e,tp,eg,ep,ev,re,r,rp)
+    local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
