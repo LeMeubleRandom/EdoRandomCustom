@@ -79,6 +79,7 @@ end
 function s.selfspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
 	if not g then return end
+    c:SetMaterial(g)
 	Duel.Release(g,REASON_COST|REASON_MATERIAL)
 end
 function s.regcon(e)
