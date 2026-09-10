@@ -45,7 +45,7 @@ end
 function s.selfspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.HasFlagEffect(0,id) and Duel.CheckReleaseGroup(tp,s.selfspcostfilter,1,false,1,true,c,tp,nil,true,nil,tp,c)
+	return Duel.CheckReleaseGroup(tp,s.selfspcostfilter,1,false,1,true,c,tp,nil,true,nil,tp,c)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,1,1,false,true,true,c,tp,nil,true,nil,tp,c)
