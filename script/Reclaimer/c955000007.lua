@@ -40,12 +40,11 @@ function s.ffilter(c)
 end
 function s.selfspcostfilter(c,tp,fc)
 	return c:IsReleasable() and c:IsFaceup() and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION,tp)
-		and Duel.GetLocationCountFromEx(tp,tp,c,fc)>0
 end
 function s.selfspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,s.selfspcostfilter,1,false,1,true,c,tp,nil,true,nil,tp,c)
+	return Duel.CheckReleaseGroup(tp,s.selfspcostfilter,2,false,1,true,c,tp,nil,true,nil,tp,c)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,1,1,false,true,true,c,tp,nil,true,nil,tp,c)
@@ -75,3 +74,5 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE|PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
+
+--[[	and Duel.GetLocationCountFromEx(tp,tp,c,fc)>0     ]]--
