@@ -39,7 +39,9 @@ function s.ffilter(c)
 	return c:IsLocation(LOCATION_MZONE)
 end
 function s.selfspcostfilter(c,tp,fc)
-	return c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) and (c:IsControler(tp) or c:IsFaceup())
+	return c:IsReleasable()
+		and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) 
+        and c:IsFaceup()
 end
 function s.rescon(sg,e,tp,mg)
 	return Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0
