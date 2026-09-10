@@ -1,4 +1,4 @@
--Duel.LoadScript("MeubleConstant.lua")
+Duel.LoadScript("MeubleConstant.lua")
 
 --Infested Humanoid "Spartans"
 local s,id=GetID()
