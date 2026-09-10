@@ -41,7 +41,7 @@ end
 function s.selfspcostfilter(c,tp,fc)
 	return c:IsReleasable()
 		and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) 
-        and c:IsFaceup()
+        and (c:IsControler(tp) or c:IsFaceup())
 end
 function s.rescon(sg,e,tp,mg)
 	return Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0
