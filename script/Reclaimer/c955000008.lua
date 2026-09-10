@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e2:SetCondition(s.spcon)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
-	e2:SetHintTiming(0,TIMING_BATTLE_START|TIMING_ATTACK|TIMING_BATTLE_END)
+    e2:SetHintTiming(0,TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E|TIMING_BATTLE_START|TIMING_ATTACK|TIMING_BATTLE_END)
 	c:RegisterEffect(e2)
 end
 function s.setfilter(c)
@@ -43,6 +43,7 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,955000002),tp,LOCATION_MZONE,0,1,nil)
+		and (Duel.IsMainPhase() or Duel.IsTurnPlayer(1-tp) and Duel.IsBattlePhase())
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
