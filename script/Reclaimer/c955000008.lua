@@ -51,8 +51,8 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,tp,0)
 end
-function s.syncfilter(c)
-	return c.IsSynchroSummonable() and c.IsSetCard(SET_ELITE)
+function s.syncfilter(c,e,tp)
+	return c.IsSynchroSummonable(e,0,tp,false,false) and c.IsSetCard(SET_ELITE)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
