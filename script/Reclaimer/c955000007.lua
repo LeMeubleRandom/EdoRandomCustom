@@ -1,0 +1,77 @@
+Duel.LoadScript("MeubleConstant.lua")
+
+--The Gravemind
+local s,id=GetID()
+function s.initial_effect(c)
+    c:EnableReviveLimit()
+    Fusion.AddProcMixN(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,SET_RECRUIT),1,s.ffilter,1,99,s.gfilter,1,99)
+    c:AddMustBeFusionSummoned()
+    local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_SINGLE)
+	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SINGLE_RANGE)
+    e0:SetRange(LOCATION_ALL)
+    e0:SetCode(EFFECT_ADD_RACE)
+	e0:SetValue(RACE_WARRIOR+RACE_GALAXY)
+	c:RegisterEffect(e0)
+    local e0a=Effect.CreateEffect(c)
+	e0a:SetDescription(aux.Stringid(id,0))
+	e0a:SetType(EFFECT_TYPE_FIELD)
+	e0a:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e0a:SetCode(EFFECT_SPSUMMON_PROC)
+	e0a:SetRange(LOCATION_EXTRA)
+	e0a:SetCondition(s.selfspcon)
+	e0a:SetTarget(s.selfsptg)
+	e0a:SetOperation(s.selfspop)
+	e0a:SetValue(1)
+	c:RegisterEffect(e0a)
+    local e0b=Effect.CreateEffect(c)
+	e0b:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	e0b:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	e0b:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e0b:SetCondition(s.regcon)
+	e0b:SetOperation(s.regop)
+	c:RegisterEffect(e0b)
+end
+function s.gfilter(c,fc,sumtype,tp)
+	return c:IsLocation(LOCATION_GRAVE)
+end
+function s.ffilter(c)
+	return c:IsLocation(LOCATION_MZONE)
+end
+function s.selfspcostfilter(c,tp,fc)
+	return c:IsReleasable() and c:IsFaceup() and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION,tp)
+		and Duel.GetLocationCountFromEx(tp,tp,c,fc)>0
+end
+function s.selfspcon(e,c)
+	if c==nil then return true end
+	local tp=c:GetControler()
+	return Duel.HasFlagEffect(0,id) and Duel.CheckReleaseGroup(tp,s.selfspcostfilter,1,false,1,true,c,tp,nil,true,nil,tp,c)
+end
+function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
+	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,1,1,false,true,true,c,tp,nil,true,nil,tp,c)
+	if g and #g>0 then
+		e:SetLabelObject(g)
+		return true
+	end
+	return false
+end
+function s.selfspop(e,tp,eg,ep,ev,re,r,rp,c)
+	local g=e:GetLabelObject()
+	if g and #g>0 then
+		Duel.Release(g,REASON_COST|REASON_MATERIAL)
+	end
+end
+function s.regcon(e)
+	local c=e:GetHandler()
+	return c:IsFusionSummoned() or c:IsSummonType(SUMMON_TYPE_SPECIAL+1)
+end
+function s.regop(e,tp,eg,ep,ev,re,r,rp)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(function(e,c,sump,sumtype) return c:IsOriginalCodeRule(id) and (sumtype&SUMMON_TYPE_FUSION==SUMMON_TYPE_FUSION or sumtype&SUMMON_TYPE_SPECIAL+1==SUMMON_TYPE_SPECIAL+1) end)
+	e1:SetReset(RESET_PHASE|PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+end
