@@ -39,16 +39,23 @@ function s.ffilter(c)
 	return c:IsLocation(LOCATION_MZONE)
 end
 function s.selfspcostfilter(c,tp,fc)
-	return c:IsReleasable() and c:IsFaceup() and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION,tp)
+	return c:IsControler(1-tp) and c:IsReleasable()
+		and c:IsCanBeFusionMaterial(fc,MATERIAL_FUSION) and (c:IsControler(tp) or c:IsFaceup())
+end
+function s.rescon(sg,e,tp,mg)
+	return Duel.GetLocationCountFromEx(tp,tp,sg,e:GetHandler())>0
+		and sg:FilterCount(Card.IsControler,nil,tp)==1
 end
 function s.selfspcon(e,c)
-	if c==nil then return true end
+	if not c then return true end
 	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,s.selfspcostfilter,2,false,1,true,c,tp,nil,true,nil,tp,c)
+	local mg=Duel.GetMatchingGroup(s.selfspcostfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,tp,c)
+	return #mg>=2 and aux.SelectUnselectGroup(mg,e,tp,2,2,s.rescon,0)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
-	local g=Duel.SelectReleaseGroup(tp,s.selfspcostfilter,2,2,false,true,true,c,tp,nil,true,nil,tp,c)
-	if g and #g>0 then
+	local mg=Duel.GetMatchingGroup(s.selfspcostfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,tp,c)
+	local g=aux.SelectUnselectGroup(mg,e,tp,2,2,s.rescon,1,tp,HINTMSG_RELEASE,nil,nil,true)
+	if #g>0 then
 		e:SetLabelObject(g)
 		return true
 	end
@@ -56,9 +63,8 @@ function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 end
 function s.selfspop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=e:GetLabelObject()
-	if g and #g>0 then
-		Duel.Release(g,REASON_COST|REASON_MATERIAL)
-	end
+	if not g then return end
+	Duel.Release(g,REASON_COST|REASON_MATERIAL)
 end
 function s.regcon(e)
 	local c=e:GetHandler()
