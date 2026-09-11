@@ -22,15 +22,15 @@ function s.initial_effect(c)
 	e2:SetTargetRange(LOCATION_MZONE,0)
     e2:SetCode(EFFECT_UPDATE_ATTACK)
     e2:SetCondition(s.con)
-	e2:SetTarget(s.target)
+    e2:SetTarget(s.target)
 	e2:SetValue(300)
 	c:RegisterEffect(e2)
 end
 function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
 end
-function s.obofilter(c,tp,opp)
-    return c:IsOwner(opp) and Duel.GetMZoneCount(tp,c,tp,LOCATION_REASON_CONTROL)>0
+function s.mcfilter(c,tp)
+    return c:IsFaceup() and c:IsOwner(1-tp)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -47,10 +47,10 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.DiscardHand(tp,nil,1,1,REASON_EFFECT|REASON_DISCARD,nil)
 	end
 end
-function s.con(e)
-	return Duel.GetTurnPlayer()~=e:GetHandlerPlayer()
+function s.con(e,c)
+    return Duel.GetTurnPlayer()~=e:GetHandlerPlayer()
 end
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-    local opp=1-tp
-	return Duel.IsExistingMatchingCard(s.obofilter,tp,0,LOCATION_MZONE,1,opp)
+function s.target(e,c)
+    local tp=c:GetControler()
+	return c:IsFaceup() and c:IsOwner(1-tp)
 end
