@@ -29,14 +29,14 @@ end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     
 end
-function s.fusac(fustg,fusop)
+function s.fusac(fusiontg,fusionop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local tc=Duel.GetFirstTarget()
 		if not tc:IsRelateToEffect(e) then return end
-		if Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)>0 and fustg(e,tp,eg,ep,ev,re,r,rp,0)
+		if Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)>0 and fusiontg(e,tp,eg,ep,ev,re,r,rp,0)
 			and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 			Duel.BreakEffect()
-			fusop(e,tp,eg,ep,ev,re,r,rp)
+			fusionop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
