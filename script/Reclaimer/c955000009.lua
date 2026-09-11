@@ -108,7 +108,7 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function s.chgtg(c,tp)
+function s.namefilter(c,tp)
 	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
 end
 function s.nameop(e,tp,eg,ep,ev,re,r,rp)
