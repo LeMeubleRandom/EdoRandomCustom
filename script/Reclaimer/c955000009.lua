@@ -110,7 +110,7 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.nameop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    local g=Duel.GetMatchingGroup(s.chgtg,tp,LOCATION_MZONE,0,nil,e)
+    local g=Duel.GetMatchingGroup(s.chgtg,tp,LOCATION_MZONE,0,nil,e,c)
     for tc in aux.Next(g) do
         if tc:GetFlagEffect(id)==0 then
             tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
