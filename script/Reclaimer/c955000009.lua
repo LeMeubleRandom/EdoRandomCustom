@@ -42,7 +42,7 @@ function s.initial_effect(c)
 	e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(2,{CARD_INFESTED_RECRUITS,2})
-	e3:SetCost(Cost.SelfToGrave)
+	e4:SetCost(Cost.SelfToGrave)
 	e4:SetTarget(s.spstg)
 	e4:SetOperation(s.spsop)
     e4:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
@@ -92,9 +92,6 @@ function s.chgtg(e,c)
     local tp=c:GetControler()
 	return c:IsFaceup() and c:IsOwner(1-tp)
 end
-function s.spscost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-    return true
-end
 function s.spstg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.spsfilter(chkc,e,tp) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
@@ -123,7 +120,11 @@ function s.nameop(e,tp,eg,ep,ev,re,r,rp)
             e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
             e1:SetDescription(aux.Stringid(id,1))
             e1:SetCode(EFFECT_CHANGE_CODE)
-            e1:SetValue(CARD_INFESTED_RECRUITS)
+            e1:SetValue(CARD_INFESTED_RECRUITS)e1:SetCondition(function(e) 
+                return Duel.GetTurnPlayer()~=e:GetOwnerPlayer()
+                and c:IsLocation(LOCATION_FZONE)
+                and not c:IsDisabled()
+            end)
             e1:SetReset(RESET_EVENT+RESETS_STANDARD)
             tc:RegisterEffect(e1)
         end
