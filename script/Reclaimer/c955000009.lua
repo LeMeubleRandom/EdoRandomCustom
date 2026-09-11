@@ -52,5 +52,5 @@ function s.con(e,c)
 end
 function s.target(e,c)
     local tp=c:GetControler()
-	return c:IsFaceup() and c:IsOwner(1-tp)
+	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
 end
