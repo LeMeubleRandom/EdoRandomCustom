@@ -38,5 +38,5 @@ end
 function s.fusop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCodeAsMaterial,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg}
-	Fusion.SummonEffOP(fusion_params)(e,tp,eg,ep,ev,re,r,rp)
+	Fusion.SummonEffOP(params)(e,tp,eg,ep,ev,re,r,rp)
 end
