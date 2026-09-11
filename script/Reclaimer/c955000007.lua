@@ -4,8 +4,8 @@ Duel.LoadScript("MeubleConstant.lua")
 local s,id=GetID()
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    Fusion.AddProcMixN(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,SET_RECRUIT),s.ffilter,1,99,s.gfilter,1,99)
-    c:AddMustBeFusionSummoned()
+	Fusion.AddProcMixRep(c,true,true,s.mat_extra,0,99,s.mat_recruit,s.mat_field,s.mat_grave)    
+	c:AddMustBeFusionSummoned()
     local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE)
 	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SINGLE_RANGE)
@@ -58,6 +58,18 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 s.listed_names={CARD_INFESTED_RECRUITS}
+function s.mat_recruit(c,fc,sumtype,tp)
+    return c:IsSetCard(SET_RECRUIT)
+end
+function s.mat_field(c,fc,sumtype,tp)
+    return c:IsLocation(LOCATION_MZONE)
+end
+function s.mat_grave(c,fc,sumtype,tp)
+    return c:IsLocation(LOCATION_GRAVE)
+end
+function s.mat_extra(c,fc,sumtype,tp)
+    return c:IsLocation(LOCATION_MZONE|LOCATION_GRAVE)
+end
 function s.gfilter(c,fc,sumtype,tp)
 	return c:IsLocation(LOCATION_GRAVE)
 end
