@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
     e2:SetCode(EFFECT_CHANGE_CODE)
-    e2:SetCondition(s.con)
+    --[[e2:SetCondition(s.con)]]
     e2:SetTarget(s.target)
 	e2:SetValue(955000010)
 	c:RegisterEffect(e2)
@@ -30,7 +30,7 @@ function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
 end
 function s.mcfilter(c,tp)
-    return c:IsFaceup() and c:IsOwner(1-tp)
+    return c:IsFaceup() --[[and c:IsOwner(1-tp) and not c:IsCode(955000010)]]
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
