@@ -50,6 +50,7 @@ end
 function s.con(e)
 	return Duel.GetTurnPlayer()~=e:GetHandlerPlayer()
 end
-function s.target(e,c)
-	return Duel.IsExistingMatchingCard(s.obofilter,tp,0,LOCATION_MZONE,1,nil)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+    local opp=1-tp
+	return Duel.IsExistingMatchingCard(s.obofilter,tp,0,LOCATION_MZONE,1,opp)
 end
