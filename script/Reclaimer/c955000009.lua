@@ -108,9 +108,12 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+function s.chgtg(c,tp)
+	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
+end
 function s.nameop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    local g=Duel.GetMatchingGroup(s.chgtg,tp,LOCATION_MZONE,0,nil,e,c)
+    local g=Duel.GetMatchingGroup(s.namefilter,tp,LOCATION_MZONE,0,nil,tp)
     for tc in aux.Next(g) do
         if tc:GetFlagEffect(id)==0 then
             tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
