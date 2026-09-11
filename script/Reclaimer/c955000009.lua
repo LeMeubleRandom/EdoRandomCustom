@@ -53,6 +53,12 @@ function s.initial_effect(c)
     e5:SetTarget(s.chgtg)
     e5:SetLabelObject(e4)
 	c:RegisterEffect(e5)
+    local e6=Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+    e6:SetCode(EVENT_ADJUST) 
+    e6:SetRange(LOCATION_FZONE)
+    e6:SetOperation(s.nameop)
+    c:RegisterEffect(e6)
 end
 function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
@@ -101,4 +107,21 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
+end
+function s.nameop(e,tp,eg,ep,ev,re,r,rp)
+    local c=e:GetHandler()
+    local g=Duel.GetMatchingGroup(s.chgtg,tp,LOCATION_MZONE,0,nil)
+    for tc in aux.Next(g) do
+        if tc:GetFlagEffect(id) == 0 then
+            tc:RegisterFlagEffect(id, RESET_EVENT+RESETS_STANDARD, 0, 1)
+            local e1 = Effect.CreateEffect(c)
+            e1:SetType(EFFECT_TYPE_SINGLE)
+            e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            e1:SetDescription(aux.Stringid(id, 1))
+            e1:SetCode(EFFECT_CHANGE_CODE)
+            e1:SetValue(CARD_INFESTED_RECRUITS)
+            e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+            tc:RegisterEffect(e1)
+        end
+    end
 end
