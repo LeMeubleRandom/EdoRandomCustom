@@ -28,7 +28,7 @@ function s.initial_effect(c)
     e2:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
 	c:RegisterEffect(e2)
 end
-function matfilter(c,fc,sumtype,sump)
+function s.matfilter(c,fc,sumtype,sump)
     return c:IsLevelBelow(4) and c:IsRace(RACE_WARRIOR,fc,sumtype,sump)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
