@@ -37,7 +37,7 @@ function s.initial_effect(c)
     e4:SetDescription(aux.Stringid(id,2))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
-	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET+EFFECT_CANNOT_DISEFFECT)
 	e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(2,{CARD_INFESTED_RECRUITS,2})
@@ -101,9 +101,10 @@ function s.spstg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.spsop(e,tp,eg,ep,ev,re,r,rp)
     local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
-		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	if tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
+        tc:NegateEffects(c)
 	end
+	Duel.SpecialSummonComplete()
 end
 function s.namefilter(c,tp)
 	return c:IsFaceup() and c:IsOwner(1-tp)
