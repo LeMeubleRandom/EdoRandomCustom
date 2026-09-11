@@ -67,6 +67,7 @@ function s.initial_effect(c)
     e6b:SetLabelObject(e6a)
     c:RegisterEffect(e6b)
 end
+s.listed_names={CARD_INFESTED_RECRUITS}
 function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
 end

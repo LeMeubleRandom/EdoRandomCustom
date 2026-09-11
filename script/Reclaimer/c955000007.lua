@@ -57,6 +57,7 @@ function s.initial_effect(c)
     e3:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
 	c:RegisterEffect(e3)
 end
+s.listed_names={CARD_INFESTED_RECRUITS}
 function s.gfilter(c,fc,sumtype,tp)
 	return c:IsLocation(LOCATION_GRAVE)
 end

@@ -28,6 +28,7 @@ function s.initial_effect(c)
     e2:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
 	c:RegisterEffect(e2)
 end
+s.listed_names={CARD_INFESTED_RECRUITS}
 function s.matfilter(c,fc,sumtype,sump)
     return c:IsLevelBelow(4) and c:IsRace(RACE_WARRIOR,fc,sumtype,sump)
 end

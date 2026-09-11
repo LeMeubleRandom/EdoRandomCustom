@@ -36,6 +36,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.spop)
     c:RegisterEffect(e2)
 end
+s.listed_names={CARD_INFESTED_RECRUITS}
 function s.cfilter(c)
 	return c:IsType(TYPE_LINK) and c:IsFaceup()
 end
