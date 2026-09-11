@@ -52,9 +52,6 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp)
         local fusion_params={
             fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end
         }
-        if Fusion.SummonEffTG(fusion_params)(e,tp,eg,ep,ev,re,r,rp,0) then
-			Duel.BreakEffect()
-			Fusion.SummonEffOP(fusion_params)(e,tp,eg,ep,ev,re,r,rp)
-		end
+        Fusion.SummonEffTG(fusion_params)(e,tp,eg,ep,ev,re,r,rp)
     end
 end
