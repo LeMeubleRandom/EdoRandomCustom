@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function matfilter(c,fc,sumtype,sump)
-    return c:IsLevelBelow(4) and c:IsRace(RACE_GALAXY)
+    return c:IsLevelBelow(4) and c:IsRace(RACE_GALAXY,fc,sumtype,sump)
 end
 function s.disfilter(c,tp,chk)
 	return c:IsNegatableMonster() and c:IsType(TYPE_EFFECT) and c:IsAbleToChangeControler()

@@ -29,7 +29,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function matfilter(c,fc,sumtype,sump)
-    return c:IsLevelBelow(4) and c:IsRace(RACE_WARRIOR)
+    return c:IsLevelBelow(4) and c:IsRace(RACE_WARRIOR,fc,sumtype,sump)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
