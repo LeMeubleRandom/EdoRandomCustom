@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
     e2:SetCode(EFFECT_CHANGE_CODE)
-    --[[e2:SetCondition(s.chgcon)]]
+    e2:SetCondition(s.chgcon)
     e2:SetTarget(s.chgtg)
 	e2:SetValue(CARD_INFESTED_RECRUITS)
 	c:RegisterEffect(e2)
@@ -30,7 +30,7 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_ADD_TYPE)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetTargetRange(LOCATION_MZONE,0)
-    --[[e3:SetCondition(s.chgcon)]]
+    e3:SetCondition(s.chgcon)
 	e3:SetTarget(s.chgtg)
 	e3:SetValue(TYPE_EFFECT)
 	c:RegisterEffect(e3)
@@ -42,6 +42,7 @@ function s.initial_effect(c)
 	e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(2,{CARD_INFESTED_RECRUITS,2})
+	e3:SetCost(Cost.SelfToGrave)
 	e4:SetTarget(s.spstg)
 	e4:SetOperation(s.spsop)
     e4:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
@@ -49,7 +50,7 @@ function s.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
 	e5:SetRange(LOCATION_FZONE)
 	e5:SetTargetRange(LOCATION_MZONE,0)
-    --[[e5:SetCondition(s.chgcon)]]
+    e5:SetCondition(s.chgcon)
     e5:SetTarget(s.chgtg)
     e5:SetLabelObject(e4)
 	c:RegisterEffect(e5)
@@ -64,7 +65,7 @@ function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
 end
 function s.mcfilter(c,tp)
-    return c:IsFaceup() --[[and c:IsOwner(1-tp) and not c:IsCode(955000010)]]
+    return c:IsFaceup() and c:IsOwner(1-tp) and not c:IsCode(955000010)
 end
 function s.spsfilter(c,e,tp)
     return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -89,9 +90,9 @@ function s.chgcon(e,c)
 end
 function s.chgtg(e,c)
     local tp=c:GetControler()
-	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
+	return c:IsFaceup() and c:IsOwner(1-tp)
 end
-function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.spscost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     return true
 end
 function s.spstg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -109,7 +110,7 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.namefilter(c,tp)
-	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
+	return c:IsFaceup() and c:IsOwner(1-tp)
 end
 function s.nameop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
