@@ -23,7 +23,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_CHANGE_CODE)
     --[[e2:SetCondition(s.con)]]
     e2:SetTarget(s.target)
-	e2:SetValue(955000010)
+	e2:SetValue(CARD_INFESTED_RECRUITS)
 	c:RegisterEffect(e2)
 end
 function s.thfilter(c)

@@ -18,3 +18,4 @@ SET_SPARTAN                      = 0x9d57
 
 CARD_THE_CHOSEN_ONE              = 955000001
 CARD_THE_FALLEN_ONE              = 955000002
+CARD_INFESTED_RECRUITS           = 955000010
