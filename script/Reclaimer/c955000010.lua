@@ -27,7 +27,7 @@ end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
-        return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
+        return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,LOCATION_HAND,0,1,nil)
     end
     Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND)
     local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
@@ -39,7 +39,7 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
     local sg=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_HAND,0,1,1,nil)
     if #sg==0 then return end
-	if Duel.SendtoGrave(sg,REASON_EFFECT)>0 and c:IsRelateToEffect(e) then
+	if Duel.SendtoGrave(sg,REASON_EFFECT)>0 then
         local fusion_params={
             fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end
         }
