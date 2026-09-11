@@ -52,6 +52,6 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp)
         local fusion_params={
             fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end
         }
-        Fusion.SummonEffTG(fusion_params)(e,tp,eg,ep,ev,re,r,rp)
+        Fusion.SummonEffTG(fusion_params)(e,tp,eg,ep,ev,re,r,rp,1)
     end
 end
