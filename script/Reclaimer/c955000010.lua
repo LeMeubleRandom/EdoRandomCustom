@@ -56,9 +56,7 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp)
     local sg=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_HAND,0,1,1,nil)
     if #sg==0 then return end
 	if Duel.SendtoGrave(sg,REASON_EFFECT)>0 then
-        local fusion_params={
-            fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end
-        }
+        local fusion_params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
 		Fusion.SummonEffOP(fusion_params)(e,tp,eg,ep,ev,re,r,rp)
     end
 end
