@@ -47,6 +47,6 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp,chk)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
     local sg=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_HAND,0,1,1,nil)
     if #sg==0 then return end
-	if Duel.SendtoGrave(sg,REASON_EFFECT)==0 or not sg:GetFirst():IsLocation(LOCATION_GRAVE) then return end
+	if Duel.SendtoGrave(sg,REASON_EFFECT)==0 then return end
     Fusion.SummonEffOP({fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)})
 end
