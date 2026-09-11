@@ -12,7 +12,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e0)
     local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON+CATEGORY_TOGRAVE)
 	e1:SetType(EFFECT_TYPE_QUICK_O)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetRange(LOCATION_HAND)
@@ -26,11 +26,12 @@ function s.initial_effect(c)
 end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local params={fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)}
-		return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
-	end
+		local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
+        return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
+    end
     Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND)
-	Fusion.SummonEffTG({fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)})(e,tp,eg,ep,ev,re,r,rp,1)
+    local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
+    Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,1) 
 end
 function s.fusop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
