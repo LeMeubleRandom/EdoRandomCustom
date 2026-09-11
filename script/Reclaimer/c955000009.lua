@@ -54,12 +54,18 @@ function s.initial_effect(c)
     e5:SetTarget(s.target)
     e5:SetLabelObject(e4)
 	c:RegisterEffect(e5)
-    --[[local e6=Effect.CreateEffect(c)
-    e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-    e6:SetCode(EVENT_ADJUST) 
+    local hint_effect=Effect.CreateEffect(c)
+    hint_effect:SetType(EFFECT_TYPE_SINGLE)
+    hint_effect:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_CLIENT_HINT)
+    hint_effect:SetRange(LOCATION_MZONE)
+    hint_effect:SetDescription(aux.Stringid(id,1))
+    local e6=Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
     e6:SetRange(LOCATION_FZONE)
-    e6:SetOperation(s.nameop)
-    c:RegisterEffect(e6)]]
+    e6:SetTargetRange(LOCATION_MZONE,0)
+    e6:SetTarget(s.target)
+    e6:SetLabelObject(hint_effect)
+    c:RegisterEffect(e6)
 end
 function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
@@ -110,23 +116,4 @@ function s.spsop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.namefilter(c,tp)
 	return c:IsFaceup() and c:IsOwner(1-tp)
-end
-function s.nameop(e,tp,eg,ep,ev,re,r,rp)
-    local c=e:GetHandler()
-    local g=Duel.GetMatchingGroup(s.namefilter,tp,LOCATION_MZONE,0,nil,tp)
-    for tc in aux.Next(g) do
-        if tc:GetFlagEffect(id)==0 then
-            tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
-            local e1=Effect.CreateEffect(c)
-            e1:SetType(EFFECT_TYPE_FIELD)
-            e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            e1:SetDescription(aux.Stringid(id,1))
-            e1:SetCode(EFFECT_CHANGE_CODE)
-            e1:SetRange(LOCATION_FZONE)
-            e1:SetCondition(function(e) return c:IsLocation(LOCATION_FZONE) and not c:IsDisabled() end)
-            e1:SetValue(CARD_INFESTED_RECRUITS)
-            e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-            tc:RegisterEffect(e1)
-        end
-    end
 end
