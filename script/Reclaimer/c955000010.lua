@@ -24,19 +24,9 @@ function s.initial_effect(c)
 	e1:SetOperation(s.fusop)
 	c:RegisterEffect(e1)
 end
-function s.fextra(exc)
-	return function(e,tp,mg)
-		return nil,s.fcheck(exc)
-	end
-end
-function s.fcheck(exc)
-	return function(tp,sg,fc)
-		return not (exc and sg:IsContains(exc))
-	end
-end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local params={extrafil=s.fextra(e:GetHandler()),fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)}
+		local params=fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)
 		return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
 	end
     Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND)
