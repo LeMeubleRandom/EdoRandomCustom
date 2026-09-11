@@ -36,6 +36,9 @@ function s.initial_effect(c)
     e2:SetOperation(s.spop)
     c:RegisterEffect(e2)
 end
+function s.cfilter(c)
+	return c:IsType(TYPE_LINK) and c:IsFaceup()
+end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
@@ -60,7 +63,7 @@ function s.fusop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-	return eg:IsExists((c:IsType(TYPE_LINK) and c:IsFaceup()),1,nil)
+	return eg:IsExists(s.cfilter,1,nil)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler()
