@@ -35,7 +35,6 @@ function s.fusac(fustg,fusop)
 		if not tc:IsRelateToEffect(e) then return end
 		if Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)>0 and fustg(e,tp,eg,ep,ev,re,r,rp,0)
 			and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-			--Fusion Summon 1 level 8+ monster, by banishing monsters from either field
 			Duel.BreakEffect()
 			fusop(e,tp,eg,ep,ev,re,r,rp)
 		end
