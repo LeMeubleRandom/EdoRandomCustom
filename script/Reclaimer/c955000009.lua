@@ -21,16 +21,46 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
     e2:SetCode(EFFECT_CHANGE_CODE)
-    --[[e2:SetCondition(s.con)]]
-    e2:SetTarget(s.target)
+    --[[e2:SetCondition(s.chgcon)]]
+    e2:SetTarget(s.chgtg)
 	e2:SetValue(CARD_INFESTED_RECRUITS)
 	c:RegisterEffect(e2)
+    local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetCode(EFFECT_ADD_TYPE)
+	e3:SetRange(LOCATION_FZONE)
+	e3:SetTargetRange(LOCATION_MZONE,0)
+	e3:SetTarget(s.chgtg)
+	e3:SetValue(TYPE_EFFECT)
+	c:RegisterEffect(e3)
+    local e4=Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id,2))
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetType(EFFECT_TYPE_QUICK_O)
+	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+	e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_MZONE)
+	e4:SetCountLimit(2,{CARD_INFESTED_RECRUITS,2})
+	e4:SetTarget(s.spstg)
+	e4:SetOperation(s.spsop)
+    e4:SetHintTiming(0,TIMING_STANDBY_PHASE|TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E)
+	c:RegisterEffect(e4)
+    local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_GRANT)
+	e5:SetRange(LOCATION_FZONE)
+	e5:SetTargetRange(LOCATION_MZONE,0)
+    e5:SetTarget(s.chgtg)
+    e5:SetLabelObject(e4)
+	c:RegisterEffect(e5)
 end
 function s.thfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsAbleToHand()
 end
 function s.mcfilter(c,tp)
     return c:IsFaceup() --[[and c:IsOwner(1-tp) and not c:IsCode(955000010)]]
+end
+function s.spsfilter(c,e,tp)
+    return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -47,10 +77,27 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.DiscardHand(tp,nil,1,1,REASON_EFFECT|REASON_DISCARD,nil)
 	end
 end
-function s.con(e,c)
+function s.chgcon(e,c)
     return Duel.GetTurnPlayer()~=e:GetHandlerPlayer()
 end
-function s.target(e,c)
+function s.chgtg(e,c)
     local tp=c:GetControler()
 	return c:IsFaceup() --[[and c:IsOwner(1-tp)]]
+end
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+    return true
+end
+function s.spstg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.spsfilter(chkc,e,tp) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsExistingTarget(s.spsfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectTarget(tp,s.spsfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+end
+function s.spsop(e,tp,eg,ep,ev,re,r,rp)
+    local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
