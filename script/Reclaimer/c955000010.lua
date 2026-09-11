@@ -39,7 +39,7 @@ end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
-        return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,LOCATION_HAND,0,1,nil)()
+        return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and can_send_to_gy
     end
     Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND)
     local params={fusfilter=function(c) return c:IsSetCard(SET_INFESTED) end}
