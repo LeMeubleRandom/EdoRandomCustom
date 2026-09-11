@@ -26,7 +26,7 @@ function s.initial_effect(c)
 end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local params=fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)
+		local params={fusfilter=aux.FilterBoolFunction(Card.IsSetCard,SET_INFESTED)}
 		return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0) and Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
 	end
     Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND)
