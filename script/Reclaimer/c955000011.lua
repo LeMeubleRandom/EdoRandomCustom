@@ -3,7 +3,7 @@ Duel.LoadScript("MeubleConstant.lua")
 --Recruits in Plague
 local s,id=GetID()
 function s.initial_effect(c)
-	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,check=s.fcheck}
+	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,fcheck=s.fcheck}
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_FUSION_SUMMON)
@@ -18,7 +18,7 @@ end
 s.listed_names={CARD_INFESTED_RECRUITS}
 function s.fcheck(tp,sg,fc)
 	return sg:FilterCount(function(c)
-		return (c:IsLocation(LOCATION_GRAVE) and c:IsOwner(1-tp)) or (c:IsLocation(LOCATION_MZONE) and c:IsControler(1-tp))
+		return (c:IsLocation(LOCATION_GRAVE) and c:IsOwner(1-tp)) or (c:IsLocation(LOCATION_MZONE) and c:IsControler(1-tp) and c:IsFaceup())
 	end, nil)<=1
 end
 function s.fextra(e,tp,mg)
