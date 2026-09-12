@@ -16,8 +16,13 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 s.listed_names={CARD_INFESTED_RECRUITS}
+function s.fcheck(tp,sg,fc)
+	return sg:FilterCount(function(c)
+		return (c:IsLocation(LOCATION_GRAVE) and c:IsOwner(1-tp)) or (c:IsLocation(LOCATION_MZONE) and c:IsControler(1-tp))
+	end, nil)<=1
+end
 function s.fextra(e,tp,mg)
-	return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToDeck),tp,LOCATION_GRAVE,LOCATION_GRAVE,nil)
+	return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToDeck),tp,LOCATION_GRAVE,0,nil)
 end
 function s.extratg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -28,7 +33,7 @@ function s.fuscon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then
-	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg}
+	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,check=s.fcheck}
     	return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0)
     end
 	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg}
