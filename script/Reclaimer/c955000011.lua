@@ -16,7 +16,9 @@ function s.initial_effect(c)
 end
 s.listed_names={CARD_INFESTED_RECRUITS}
 function s.fcheck(tp,sg,fc)
-	return sg:FilterCount(Card.IsControler,nil,1-tp)<=1
+	return sg:FilterCount(function(c)
+		c.IsControler(1-tp) and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
+	end,nil)<=1
 end
 function s.fextra(e,tp,mg)
 	return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToDeck),tp,LOCATION_GRAVE,LOCATION_MZONE|LOCATION_GRAVE,nil),s.fcheck
