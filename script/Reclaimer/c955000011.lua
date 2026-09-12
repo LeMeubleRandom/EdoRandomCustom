@@ -33,14 +33,14 @@ function s.fuscon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.fustg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then
-	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,check=s.fcheck}
+	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,fcheck=s.fcheck}
     	return Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,0)
     end
-	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,check=s.fcheck}
+	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,fcheck=s.fcheck}
     Fusion.SummonEffTG(params)(e,tp,eg,ep,ev,re,r,rp,1) 
 end
 function s.fusop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,check=s.fcheck}
+	local params = {fusfilter=aux.FilterBoolFunction(Card.ListsCode,CARD_INFESTED_RECRUITS),matfilter=Fusion.OnFieldMat(Card.IsAbleToDeck),extrafil=s.fextra,extraop=Fusion.ShuffleMaterial,extratg=s.extratg,fcheck=s.fcheck}
 	Fusion.SummonEffOP(params)(e,tp,eg,ep,ev,re,r,rp)
 end
