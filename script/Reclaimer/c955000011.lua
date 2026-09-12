@@ -17,7 +17,7 @@ end
 s.listed_names={CARD_INFESTED_RECRUITS}
 function s.fcheck(tp,sg,fc)
 	return sg:FilterCount(function(c)
-		return c.IsControler(1-tp) and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
+		return c:IsControler(1-tp) and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
 	end,nil)<=1
 end
 function s.fextra(e,tp,mg)
