@@ -28,6 +28,17 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
     e2:SetHintTiming(0,TIMING_MAIN_END|TIMINGS_CHECK_MONSTER_E|TIMING_BATTLE_START|TIMING_ATTACK|TIMING_BATTLE_END)
 	c:RegisterEffect(e2)
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,4))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetCode(EVENT_BE_MATERIAL)
+	e3:SetCountLimit(1,{id,2})
+	e3:SetCondition(s.spcon)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
+	c:RegisterEffect(e3)
 end
 function s.setfilter(c)
 	return c:IsSetCard(SET_RECRUIT) and c:IsSpellTrap() and c:IsSSetable()
@@ -77,5 +88,23 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 				end
 			end
         end
+	end
+end
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsLocation(LOCATION_GRAVE) and (r==REASON_LINK or (r&REASON_FUSION)==REASON_FUSION or r&REASON_SYNCHRO==REASON_SYNCHRO)
+end
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local g=Duel.GetMatchingGroup(nil,tp,0,LOCATION_SZONE,nil)
+	if chk==0 then return #g>0 end
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
+end
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_SZONE,1,1,nil)
+	if #g>0 then
+		Duel.HintSelection(g,true)
+		local tc=g:GetFirst()
+		Duel.Destroy(tc,REASON_EFFECT)
 	end
 end
